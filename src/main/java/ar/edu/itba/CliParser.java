@@ -7,6 +7,7 @@ public class CliParser {
     public static String dynamicFile;
     static double interactionRadius;
     static boolean periodicContour = false;
+    static double noise;
 
     private static Options createOptions(){
         Options options = new Options();
@@ -14,6 +15,8 @@ public class CliParser {
         options.addOption("rc", "radius", true, "Radius of interaction between particles.");
         options.addOption("df", "dynamic_file", true, "Path to the file with the dynamic values.");
         options.addOption("pc", "periodic_contour", false, "Enables periodic contour conditions.");
+        options.addOption("n", "noise", false, "Noise of the environment.");
+        options.addOption("s", "speed", false, "Noise of the environment.");
         return options;
     }
 
@@ -42,6 +45,7 @@ public class CliParser {
                 periodicContour = true;
             }
 
+            noise = Double.parseDouble(cmd.getOptionValue("n"));
         }catch (Exception e){
             System.out.println("Command not recognized.");
             help(options);
