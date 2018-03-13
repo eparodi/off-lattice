@@ -1,17 +1,22 @@
 package ar.edu.itba.ss;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Particle implements Cloneable{
 
     double x;
     double y;
     double angle;
     int id;
+    Set<Particle> neighbours;
 
     Particle(double x, double y, double angle, int id){
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.id = id;
+        this.neighbours = new HashSet<>();
     }
 
     Particle getClone() throws CloneNotSupportedException {
@@ -43,5 +48,9 @@ public class Particle implements Cloneable{
         Particle particle = (Particle) o;
 
         return id == particle.id;
+    }
+
+    public void addNeighbour(Particle adjacentParticle) {
+        this.neighbours.add(adjacentParticle);
     }
 }

@@ -3,6 +3,7 @@ package ar.edu.itba.ss;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import static java.lang.System.exit;
 
@@ -38,7 +39,12 @@ public class OffLattice
             List<Particle> particles = new LinkedList<Particle>();
             for (List<Particle> cell : cells) {
                 for (Particle p : cell) {
-                    double angle = getNewAngle(oldValues, p);
+                    getNeighbours(p, oldValues, cells);
+                }
+            }
+            for (List<Particle> cell : cells) {
+                for (Particle p : cell) {
+                    double angle = getNewAngle(p);
                     changePosition(p);
                     p.angle = angle;
                     particles.add(p);
@@ -52,6 +58,20 @@ public class OffLattice
                 assignCell(cells, p);
             }
         }
+    }
+
+    private static void getNeighbours(Particle p, List<List<Particle>> oldCells, List<List<Particle>> cells) {
+
+        double cellSize = CliParser.length / Parser.matrixSize;
+        double cellX = Math.floor(p.x / cellSize);
+        double cellY = Math.floor(p.y / cellSize);
+
+        checkAdjacent(p, cellX, cellY, oldCells, cells);
+        checkAdjacent(p, cellX, cellY + 1, oldCells, cells);
+        checkAdjacent(p, cellX + 1, cellY + 1, oldCells, cells);
+        checkAdjacent(p, cellX + 1, cellY, oldCells, cells);
+        checkAdjacent(p, cellX + 1, cellY - 1, oldCells,  cells);
+
     }
 
     private static ArrayList<List<Particle>> cloneCells(ArrayList<List<Particle>> cells) throws CloneNotSupportedException {
@@ -86,30 +106,20 @@ public class OffLattice
         cellParticles.add(p);
     }
 
-    private static double getNewAngle(ArrayList<List<Particle>> cells, Particle p){
+    private static double getNewAngle(Particle p){
         double angle = 0;
-        double cellSize = CliParser.length / Parser.matrixSize;
-        double cellX = Math.floor(p.x / cellSize);
-        double cellY = Math.floor(p.y / cellSize);
-
-        List<Particle> particles = new LinkedList<Particle>();
-
-        particles.addAll(checkAdjacent(p, cellX, cellY, cells));
-        particles.addAll(checkAdjacent(p, cellX, cellY + 1, cells));
-        particles.addAll(checkAdjacent(p, cellX + 1, cellY + 1, cells));
-        particles.addAll(checkAdjacent(p, cellX + 1, cellY, cells));
-        particles.addAll(checkAdjacent(p, cellX + 1, cellY - 1, cells));
+        Set<Particle> neighbours = p.neighbours;
 
         double sin = 0;
         double cos = 0;
-        for (Particle particle : particles){
-            sin += Math.sin(particle.angle);
-            cos += Math.cos(particle.angle);
+        for (Particle neighbour : neighbours){
+            sin += Math.sin(neighbour.angle);
+            cos += Math.cos(neighbour.angle);
         }
 
-        if (particles.size() != 0){
-            sin = sin / particles.size();
-            cos = cos / particles.size();
+        if (neighbours.size() != 0){
+            sin = sin / neighbours.size();
+            cos = cos / neighbours.size();
             angle = Math.atan2(cos, sin);
             double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
             angle += noise;
@@ -139,8 +149,8 @@ public class OffLattice
         }
     }
 
-    private static List<Particle> checkAdjacent(Particle particle, double cellX, double cellY, ArrayList<List<Particle>> cells){
-        List<Particle> particles = new LinkedList<Particle>();
+    private static void checkAdjacent(Particle particle, double cellX, double cellY, List<List<Particle>> oldCells, List<List<Particle>> cells){
+
         if (cellX >= Parser.matrixSize){
             cellX = 0;
         }
@@ -159,17 +169,27 @@ public class OffLattice
 
         int adjCellNumber = (int) (cellY * Parser.matrixSize + cellX);
 
-        List<Particle> cellParticles = cells.get(adjCellNumber);
+        List<Particle> cellParticles = oldCells.get(adjCellNumber);
 
         for (Particle adjacentParticle : cellParticles){
 
-            double distance = particle.getPeriodicContourDistance(adjacentParticle);
+            if (adjacentParticle.id != particle.id) {
 
-            if (distance < CliParser.interactionRadius){
-                particles.add(adjacentParticle);
+                double distance = particle.getPeriodicContourDistance(adjacentParticle);
+
+                if (distance < CliParser.interactionRadius) {
+                    particle.addNeighbour(adjacentParticle);
+
+                    for (List<Particle> newParticles : cells){
+                        for(Particle newParticle : newParticles){
+                            if (newParticle.id == adjacentParticle.id){
+                                newParticle.addNeighbour(particle);
+                            }
+                        }
+                    }
+                }
             }
         }
-        return particles;
     }
 
     private static ArrayList<List<Particle>> createCells(){
