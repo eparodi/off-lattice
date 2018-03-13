@@ -29,7 +29,7 @@ public class OffLattice
         System.out.println(Parser.particles.size()); /* Print N */
         System.out.println(0);
         for (Particle p : Parser.particles){
-            System.out.println(p.x + " " + p.y + " " + p.angle);
+            System.out.println(p.x + "\t" + p.y + "\t" + p.angle);
             assignCell(cells, p);
         }
 
@@ -48,7 +48,7 @@ public class OffLattice
             System.out.println(Parser.numberOfParticles);
             System.out.println(i + 1);
             for (Particle p: particles){
-                System.out.println(p.x + " " + p.y + " " + p.angle);
+                System.out.println(p.x + "\t" + p.y + "\t" + p.angle);
                 assignCell(cells, p);
             }
         }
@@ -163,7 +163,7 @@ public class OffLattice
 
         for (Particle adjacentParticle : cellParticles){
 
-            double distance = particle.getPeriodicContourDistance(particle);
+            double distance = particle.getPeriodicContourDistance(adjacentParticle);
 
             if (distance < CliParser.interactionRadius){
                 particles.add(adjacentParticle);

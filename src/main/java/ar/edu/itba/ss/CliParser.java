@@ -16,7 +16,6 @@ public class CliParser {
         options.addOption("h", "help", false, "Shows this screen.");
         options.addOption("rc", "radius", true, "Radius of interaction between particles.");
         options.addOption("df", "dynamic_file", true, "Path to the file with the dynamic values.");
-        options.addOption("pc", "periodic_contour", false, "Enables periodic contour conditions.");
         options.addOption("n", "noise", true, "Noise of the environment.");
         options.addOption("s", "speed", true, "Speed module of the particles.");
         options.addOption("l", "length", true, "Length of the side.");
