@@ -1,4 +1,4 @@
-package ar.edu.itba;
+package ar.edu.itba.ss;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,14 +8,13 @@ import java.util.Scanner;
 
 public class Parser {
 
-    private static int numberOfParticles = 0;
+    static int numberOfParticles = 0;
     static Queue<Particle> particles = new LinkedList<Particle>();
-    static final double AREA_LENGTH = 20;
     static int matrixSize;
     static Double speed;
 
     static void dynamicSystemParse() throws FileNotFoundException {
-        matrixSize = (int) Math.floor(Parser.AREA_LENGTH/CliParser.interactionRadius);
+        matrixSize = (int) Math.floor(CliParser.length/CliParser.interactionRadius);
         File dynamicFile = new File(CliParser.dynamicFile);
         Scanner sc = new Scanner(dynamicFile);
         sc.nextInt();   /* Discard first time value */

@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ar.edu.itba</groupId>
+  <groupId>ar.edu.itba.ss</groupId>
   <artifactId>off-lattice</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -24,7 +24,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>ar.edu.itba.ss.App</mainClass>
+              <mainClass>ar.edu.itba.ss.OffLattice</mainClass>
             </manifest>
           </archive>
         </configuration>
@@ -36,7 +36,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>ar.edu.itba.ss.App</mainClass>
+              <mainClass>ar.edu.itba.ss.OffLattice</mainClass>
             </manifest>
           </archive>
           <descriptorRefs>

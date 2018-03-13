@@ -1,4 +1,4 @@
-package ar.edu.itba;
+package ar.edu.itba.ss;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -6,7 +6,7 @@ import java.util.List;
 
 import static java.lang.System.exit;
 
-public class App
+public class OffLattice
 {
     public static void main( String[] args ) {
 
@@ -26,13 +26,14 @@ public class App
 
         ArrayList<List<Particle>> cells = createCells();
 
+        System.out.println(Parser.particles.size()); /* Print N */
         System.out.println(0);
         for (Particle p : Parser.particles){
             System.out.println(p.x + " " + p.y + " " + p.angle);
             assignCell(cells, p);
         }
 
-        for (int i = 0; i < 100; i++){
+        for (int i = 0; i < Parser.numberOfParticles; i++){
             ArrayList<List<Particle>> oldValues = cloneCells(cells);
             List<Particle> particles = new LinkedList<Particle>();
             for (List<Particle> cell : cells) {
@@ -72,13 +73,13 @@ public class App
     }
 
     private static void assignCell(ArrayList<List<Particle>> cells, Particle p){
-        double cellSize = Parser.AREA_LENGTH / Parser.matrixSize;
+        double cellSize = CliParser.length / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
-        if (cellY == 20.0)
-            cellY = 19.0;
-        if (cellX == 20.0)
-            cellX = 19.0;
+        if (cellY == CliParser.length)
+            cellY = CliParser.length - 1;
+        if (cellX == CliParser.length)
+            cellX = CliParser.length - 1;
         int cellNumber = (int) (cellY * Parser.matrixSize + cellX);
         List <Particle> cellParticles = cells.get(cellNumber);
         cellParticles.add(p);
@@ -86,13 +87,13 @@ public class App
 
     private static double getNewAngle(ArrayList<List<Particle>> cells, Particle p){
         double angle = 0;
-        double cellSize = Parser.AREA_LENGTH / Parser.matrixSize;
+        double cellSize = CliParser.length / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
-        if (cellY == 20.0)
-            cellY = 19.0;
-        if (cellX == 20.0)
-            cellX = 19.0;
+        if (cellY == CliParser.length)
+            cellY = CliParser.length - 1;
+        if (cellX == CliParser.length)
+            cellX = CliParser.length - 1;
 
         List<Particle> particles = new LinkedList<Particle>();
 
@@ -114,30 +115,30 @@ public class App
     private static void changePosition(Particle p){
         p.x += Math.cos(p.angle) * Parser.speed;
         p.y += Math.sin(p.angle) * Parser.speed;
-        if (p.x >= Parser.AREA_LENGTH){
+        if (p.x >= CliParser.length){
             if (CliParser.periodicContour){
-                p.x -= Parser.AREA_LENGTH;
+                p.x -= CliParser.length;
             }else{
-                p.x -= p.x - Parser.AREA_LENGTH;
+                p.x -= p.x - CliParser.length;
             }
         }
-        if (p.y >= Parser.AREA_LENGTH){
+        if (p.y >= CliParser.length){
             if (CliParser.periodicContour){
-                p.y -= Parser.AREA_LENGTH;
+                p.y -= CliParser.length;
             }else{
-                p.y -= p.y - Parser.AREA_LENGTH;
+                p.y -= p.y - CliParser.length;
             }
         }
         if (p.x < 0){
             if (CliParser.periodicContour){
-                p.x += Parser.AREA_LENGTH;
+                p.x += CliParser.length;
             }else{
                 p.x += p.x * -1;
             }
         }
         if (p.y < 0){
             if (CliParser.periodicContour){
-                p.y += Parser.AREA_LENGTH;
+                p.y += CliParser.length;
             }else{
                 p.y += p.y * -1;
             }

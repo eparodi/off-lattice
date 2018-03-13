@@ -1,4 +1,4 @@
-package ar.edu.itba;
+package ar.edu.itba.ss;
 
 public class Particle implements Cloneable{
 
