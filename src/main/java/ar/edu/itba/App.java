@@ -75,6 +75,10 @@ public class App
         double cellSize = Parser.AREA_LENGTH / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
+        if (cellY == 20.0)
+            cellY = 19.0;
+        if (cellX == 20.0)
+            cellX = 19.0;
         int cellNumber = (int) (cellY * Parser.matrixSize + cellX);
         List <Particle> cellParticles = cells.get(cellNumber);
         cellParticles.add(p);
@@ -85,6 +89,10 @@ public class App
         double cellSize = Parser.AREA_LENGTH / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
+        if (cellY == 20.0)
+            cellY = 19.0;
+        if (cellX == 20.0)
+            cellX = 19.0;
 
         List<Particle> particles = new LinkedList<Particle>();
 
@@ -106,14 +114,14 @@ public class App
     private static void changePosition(Particle p){
         p.x += Math.cos(p.angle) * Parser.speed;
         p.y += Math.sin(p.angle) * Parser.speed;
-        if (p.x > Parser.AREA_LENGTH){
+        if (p.x >= Parser.AREA_LENGTH){
             if (CliParser.periodicContour){
                 p.x -= Parser.AREA_LENGTH;
             }else{
                 p.x -= p.x - Parser.AREA_LENGTH;
             }
         }
-        if (p.y > Parser.AREA_LENGTH){
+        if (p.y >= Parser.AREA_LENGTH){
             if (CliParser.periodicContour){
                 p.y -= Parser.AREA_LENGTH;
             }else{
@@ -124,14 +132,14 @@ public class App
             if (CliParser.periodicContour){
                 p.x += Parser.AREA_LENGTH;
             }else{
-                p.x = - p.x;
+                p.x += p.x * -1;
             }
         }
         if (p.y < 0){
             if (CliParser.periodicContour){
                 p.y += Parser.AREA_LENGTH;
             }else{
-                p.y += - p.y;
+                p.y += p.y * -1;
             }
         }
     }

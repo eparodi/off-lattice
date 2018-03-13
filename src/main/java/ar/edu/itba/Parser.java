@@ -10,7 +10,7 @@ public class Parser {
 
     private static int numberOfParticles = 0;
     static Queue<Particle> particles = new LinkedList<Particle>();
-    static final double AREA_LENGTH = 200;
+    static final double AREA_LENGTH = 20;
     static int matrixSize;
     static Double speed;
 
