@@ -99,12 +99,18 @@ public class OffLattice
         particles.addAll(checkAdjacent(p, cellX + 1, cellY + 1, cells));
         particles.addAll(checkAdjacent(p, cellX + 1, cellY, cells));
         particles.addAll(checkAdjacent(p, cellX + 1, cellY - 1, cells));
+
+        double sin = 0;
+        double cos = 0;
         for (Particle particle : particles){
-            angle += particle.angle;
+            sin += Math.sin(particle.angle);
+            cos += Math.cos(particle.angle);
         }
 
         if (particles.size() != 0){
-            angle = angle / particles.size();
+            sin = sin / particles.size();
+            cos = cos / particles.size();
+            angle = Math.atan2(cos, sin);
             double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
             angle += noise;
         }
