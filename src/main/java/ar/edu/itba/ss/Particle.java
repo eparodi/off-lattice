@@ -23,6 +23,18 @@ public class Particle implements Cloneable{
                 Math.pow(y - particle.y, 2));
     }
 
+    public double getPeriodicContourDistance(Particle particle){
+        double dx = Math.abs(this.x - particle.x);
+        if (dx > CliParser.length / 2)
+            dx = CliParser.length - dx;
+
+        double dy = Math.abs(this.y - particle.y);
+        if (dy > CliParser.length / 2)
+            dy = CliParser.length - dy;
+
+        return Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

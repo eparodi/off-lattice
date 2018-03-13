@@ -11,7 +11,6 @@ public class Parser {
     static int numberOfParticles = 0;
     static Queue<Particle> particles = new LinkedList<Particle>();
     static int matrixSize;
-    static Double speed;
 
     static void dynamicSystemParse() throws FileNotFoundException {
         matrixSize = (int) Math.floor(CliParser.length/CliParser.interactionRadius);
@@ -22,12 +21,7 @@ public class Parser {
         while(sc.hasNextDouble()){
             double x = sc.nextDouble();
             double y = sc.nextDouble();
-            double vx = sc.nextDouble();
-            double vy = sc.nextDouble();
-            if (speed == null){
-                speed = Math.sqrt(Math.pow(vx,2) + Math.pow(vy,2));
-            }
-            double angle = Math.tan(vy/vx);
+            double angle = sc.nextDouble();
             Particle p = new Particle(x,y, angle, id++);
             particles.add(p);
             numberOfParticles += 1;

@@ -6,10 +6,10 @@ public class CliParser {
 
     public static String dynamicFile;
     static double interactionRadius = 1;
-    static boolean periodicContour = false;
     static double noise = 0.1;
     static double speed = 0.3;
     static double length;
+    static int time = 100;
 
     private static Options createOptions(){
         Options options = new Options();
@@ -20,6 +20,7 @@ public class CliParser {
         options.addOption("n", "noise", true, "Noise of the environment.");
         options.addOption("s", "speed", true, "Speed module of the particles.");
         options.addOption("l", "length", true, "Length of the side.");
+        options.addOption("t", "time", true, "Total time of the simulation.");
         return options;
     }
 
@@ -44,9 +45,6 @@ public class CliParser {
             if (cmd.hasOption("rc")){
                 interactionRadius = Double.parseDouble(cmd.getOptionValue("rc"));
             }
-            if (cmd.hasOption("pc")){
-                periodicContour = true;
-            }
 
             if (cmd.hasOption("n")) {
                 noise = Double.parseDouble(cmd.getOptionValue("n"));
@@ -61,6 +59,10 @@ public class CliParser {
             }else{
                 System.out.println("You must specify the length of the side.");
                 System.exit(1);
+            }
+
+            if (cmd.hasOption("t")) {
+                time = Integer.parseInt(cmd.getOptionValue("t"));
             }
         }catch (Exception e){
             System.out.println("Command not recognized.");

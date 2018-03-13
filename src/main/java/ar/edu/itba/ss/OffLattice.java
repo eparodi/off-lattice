@@ -33,7 +33,7 @@ public class OffLattice
             assignCell(cells, p);
         }
 
-        for (int i = 0; i < Parser.numberOfParticles; i++){
+        for (int i = 0; i < CliParser.time; i++){
             ArrayList<List<Particle>> oldValues = cloneCells(cells);
             List<Particle> particles = new LinkedList<Particle>();
             for (List<Particle> cell : cells) {
@@ -45,6 +45,7 @@ public class OffLattice
                 }
             }
             cells = createCells();
+            System.out.println(Parser.numberOfParticles);
             System.out.println(i + 1);
             for (Particle p: particles){
                 System.out.println(p.x + " " + p.y + " " + p.angle);
@@ -77,9 +78,9 @@ public class OffLattice
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
         if (cellY == CliParser.length)
-            cellY = CliParser.length - 1;
+            cellY = 0;
         if (cellX == CliParser.length)
-            cellX = CliParser.length - 1;
+            cellX = 0;
         int cellNumber = (int) (cellY * Parser.matrixSize + cellX);
         List <Particle> cellParticles = cells.get(cellNumber);
         cellParticles.add(p);
@@ -90,10 +91,6 @@ public class OffLattice
         double cellSize = CliParser.length / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
-        if (cellY == CliParser.length)
-            cellY = CliParser.length - 1;
-        if (cellX == CliParser.length)
-            cellX = CliParser.length - 1;
 
         List<Particle> particles = new LinkedList<Particle>();
 
@@ -106,53 +103,47 @@ public class OffLattice
             angle += particle.angle;
         }
 
-        angle = angle / particles.size();
-        double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
-        angle += noise;
+        if (particles.size() != 0){
+            angle = angle / particles.size();
+            double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
+            angle += noise;
+        }
         return angle;
     }
 
     private static void changePosition(Particle p){
-        p.x += Math.cos(p.angle) * Parser.speed;
-        p.y += Math.sin(p.angle) * Parser.speed;
+        p.x += Math.cos(p.angle) * CliParser.speed;
+        p.y += Math.sin(p.angle) * CliParser.speed;
         if (p.x >= CliParser.length){
-            if (CliParser.periodicContour){
-                p.x -= CliParser.length;
-            }else{
-                p.x -= p.x - CliParser.length;
-            }
+            p.x -= CliParser.length;
         }
         if (p.y >= CliParser.length){
-            if (CliParser.periodicContour){
-                p.y -= CliParser.length;
-            }else{
-                p.y -= p.y - CliParser.length;
-            }
+            p.y -= CliParser.length;
         }
         if (p.x < 0){
-            if (CliParser.periodicContour){
-                p.x += CliParser.length;
-            }else{
-                p.x += p.x * -1;
-            }
+            p.x += CliParser.length;
         }
         if (p.y < 0){
-            if (CliParser.periodicContour){
-                p.y += CliParser.length;
-            }else{
-                p.y += p.y * -1;
-            }
+            p.y += CliParser.length;
         }
     }
 
     private static List<Particle> checkAdjacent(Particle particle, double cellX, double cellY, ArrayList<List<Particle>> cells){
         List<Particle> particles = new LinkedList<Particle>();
-        if (CliParser.periodicContour) {
-            return particles;
-        }else {
-            if (cellX >= Parser.matrixSize || cellX < 0 || cellY >= Parser.matrixSize || cellY < 0) {
-                return particles;
-            }
+        if (cellX >= Parser.matrixSize){
+            cellX = 0;
+        }
+
+        if (cellY >= Parser.matrixSize){
+            cellY = 0;
+        }
+
+        if (cellX == -1){
+            cellX = Parser.matrixSize - 1;
+        }
+
+        if (cellY == -1){
+            cellY = Parser.matrixSize - 1;
         }
 
         int adjCellNumber = (int) (cellY * Parser.matrixSize + cellX);
@@ -161,9 +152,7 @@ public class OffLattice
 
         for (Particle adjacentParticle : cellParticles){
 
-            double distance;
-
-            distance = particle.getDistanceTo(adjacentParticle);
+            double distance = particle.getPeriodicContourDistance(particle);
 
             if (distance < CliParser.interactionRadius){
                 particles.add(adjacentParticle);
