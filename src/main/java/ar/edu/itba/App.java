@@ -15,6 +15,7 @@ public class App
             Parser.dynamicSystemParse();
             offLattice();
         }catch(Exception e){
+            e.printStackTrace();
             System.out.println("There was an error while executing the program, please try again");
             exit(1);
         }
@@ -22,26 +23,31 @@ public class App
     }
 
     private static void offLattice() throws CloneNotSupportedException {
-        ArrayList<List<Particle>> cells = new ArrayList<List<Particle>>(Parser.matrixSize * Parser.matrixSize);
 
-        for (int i = 0; i < Parser.matrixSize * Parser.matrixSize ; i++){
-            cells.add(new LinkedList<Particle>());
-        }
+        ArrayList<List<Particle>> cells = createCells();
 
+        System.out.println(0);
         for (Particle p : Parser.particles){
+            System.out.println(p.x + " " + p.y + " " + p.angle);
             assignCell(cells, p);
         }
 
         for (int i = 0; i < 100; i++){
             ArrayList<List<Particle>> oldValues = cloneCells(cells);
-            for (int j = 0 ; j < cells.size(); j++){
-                List<Particle> cell = cells.get(j);
-                for (Particle p: cell){
+            List<Particle> particles = new LinkedList<Particle>();
+            for (List<Particle> cell : cells) {
+                for (Particle p : cell) {
                     double angle = getNewAngle(oldValues, p);
                     changePosition(p);
                     p.angle = angle;
-                    assignCell(cells, p);
+                    particles.add(p);
                 }
+            }
+            cells = createCells();
+            System.out.println(i + 1);
+            for (Particle p: particles){
+                System.out.println(p.x + " " + p.y + " " + p.angle);
+                assignCell(cells, p);
             }
         }
     }
@@ -157,5 +163,13 @@ public class App
         return particles;
     }
 
+    private static ArrayList<List<Particle>> createCells(){
+        ArrayList<List<Particle>> cells = new ArrayList<List<Particle>>(Parser.matrixSize * Parser.matrixSize);
+
+        for (int i = 0; i < Parser.matrixSize * Parser.matrixSize ; i++){
+            cells.add(new LinkedList<Particle>());
+        }
+        return cells;
+    }
 
 }
