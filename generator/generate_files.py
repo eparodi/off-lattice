@@ -4,7 +4,7 @@ def generate_dynamic_file(number, length, name):
     f = open(name, 'w')
     f.write('0\n')
     for x in range(0, number):
-        angle = random.uniform(-pi/2, pi/2)
+        angle = random.uniform(-pi, pi)
         f.write('{x} {y} {angle}\n'.format(
                 x = random.uniform(0, length),
                 y = random.uniform(0,length),
