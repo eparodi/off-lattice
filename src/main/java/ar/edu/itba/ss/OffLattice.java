@@ -108,6 +108,11 @@ public class OffLattice
             double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
             angle += noise;
         }
+        if (angle > Math.PI / 2){
+            angle -= Math.PI / 2;
+        }else if (angle < -Math.PI / 2 ){
+            angle += Math.PI / 2;
+        }
         return angle;
     }
 
