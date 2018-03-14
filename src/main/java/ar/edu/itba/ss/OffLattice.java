@@ -1,9 +1,6 @@
 package ar.edu.itba.ss;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.System.exit;
 
@@ -123,7 +120,10 @@ public class OffLattice
             angle = Math.atan2(cos, sin);
             double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
             angle += noise;
+        }else { /* If no neighbours keep the same angle  */
+            return p.angle;
         }
+
         if (angle > Math.PI){
             angle -= Math.PI;
         }else if (angle < -Math.PI){
@@ -179,12 +179,17 @@ public class OffLattice
 
                 if (distance < CliParser.interactionRadius) {
                     particle.addNeighbour(adjacentParticle);
-
+                    boolean found = false;
                     for (List<Particle> newParticles : cells){
                         for(Particle newParticle : newParticles){
                             if (newParticle.id == adjacentParticle.id){
                                 newParticle.addNeighbour(particle);
+                                found = true;
+                                break;
                             }
+                        }
+                        if (found){
+                            break;
                         }
                     }
                 }

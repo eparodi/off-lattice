@@ -1,8 +1,8 @@
 import numpy as np
 
-SPEED = 0.3
+SPEED = 0.03
 
-with open('output.data') as f:
+with open('outp5.data') as f:
     numberOfParticles = None
     particle = 0
     velocity = [0,0]
