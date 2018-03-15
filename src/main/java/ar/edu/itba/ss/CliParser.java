@@ -8,7 +8,6 @@ public class CliParser {
     static double interactionRadius = 1;
     static double noise = 0.1;
     static double speed = 0.3;
-    static double length;
     static int time = 100;
 
     private static Options createOptions(){
@@ -18,7 +17,6 @@ public class CliParser {
         options.addOption("df", "dynamic_file", true, "Path to the file with the dynamic values.");
         options.addOption("n", "noise", true, "Noise of the environment.");
         options.addOption("s", "speed", true, "Speed module of the particles.");
-        options.addOption("l", "length", true, "Length of the side.");
         options.addOption("t", "time", true, "Total time of the simulation.");
         return options;
     }
@@ -51,13 +49,6 @@ public class CliParser {
 
             if (cmd.hasOption("s")) {
                 speed = Double.parseDouble(cmd.getOptionValue("s"));
-            }
-
-            if (cmd.hasOption("l")) {
-                length = Double.parseDouble(cmd.getOptionValue("l"));
-            }else{
-                System.out.println("You must specify the length of the side.");
-                System.exit(1);
             }
 
             if (cmd.hasOption("t")) {

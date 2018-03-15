@@ -3,7 +3,7 @@ import sys
 
 def generate_dynamic_file(number, length, name):
     f = open(name, 'w')
-    f.write('0\n')
+    f.write('{}\n'.format(length))
     for x in range(0, number):
         angle = random.uniform(-pi, pi)
         f.write('{x} {y} {angle}\n'.format(

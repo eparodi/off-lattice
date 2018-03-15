@@ -30,12 +30,12 @@ public class Particle implements Cloneable{
 
     public double getPeriodicContourDistance(Particle particle){
         double dx = Math.abs(this.x - particle.x);
-        if (dx > CliParser.length / 2)
-            dx = CliParser.length - dx;
+        if (dx > Parser.length / 2)
+            dx = Parser.length - dx;
 
         double dy = Math.abs(this.y - particle.y);
-        if (dy > CliParser.length / 2)
-            dy = CliParser.length - dy;
+        if (dy > Parser.length / 2)
+            dy = Parser.length - dy;
 
         return Math.sqrt(Math.pow(dx,2) + Math.pow(dy,2));
     }

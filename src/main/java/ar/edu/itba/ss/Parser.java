@@ -11,12 +11,13 @@ public class Parser {
     static int numberOfParticles = 0;
     static Queue<Particle> particles = new LinkedList<Particle>();
     static int matrixSize;
+    static double length;
 
     static void dynamicSystemParse() throws FileNotFoundException {
-        matrixSize = (int) Math.floor(CliParser.length/CliParser.interactionRadius);
         File dynamicFile = new File(CliParser.dynamicFile);
         Scanner sc = new Scanner(dynamicFile);
-        sc.nextInt();   /* Discard first time value */
+        length = sc.nextDouble();   /* Discard first time value */
+        matrixSize = (int) Math.floor(Parser.length/CliParser.interactionRadius);
         int id = 1;
         while(sc.hasNextDouble()){
             double x = sc.nextDouble();

@@ -59,7 +59,7 @@ public class OffLattice
 
     private static void getNeighbours(Particle p, List<List<Particle>> oldCells, List<List<Particle>> cells) {
 
-        double cellSize = CliParser.length / Parser.matrixSize;
+        double cellSize = Parser.length / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
 
@@ -91,12 +91,12 @@ public class OffLattice
     }
 
     private static void assignCell(ArrayList<List<Particle>> cells, Particle p){
-        double cellSize = CliParser.length / Parser.matrixSize;
+        double cellSize = Parser.length / Parser.matrixSize;
         double cellX = Math.floor(p.x / cellSize);
         double cellY = Math.floor(p.y / cellSize);
-        if (cellY == CliParser.length)
+        if (cellY == Parser.length)
             cellY = 0;
-        if (cellX == CliParser.length)
+        if (cellX == Parser.length)
             cellX = 0;
         int cellNumber = (int) (cellY * Parser.matrixSize + cellX);
         List <Particle> cellParticles = cells.get(cellNumber);
@@ -131,17 +131,17 @@ public class OffLattice
     private static void changePosition(Particle p){
         p.x += Math.cos(p.angle) * CliParser.speed;
         p.y += Math.sin(p.angle) * CliParser.speed;
-        if (p.x >= CliParser.length){
-            p.x -= CliParser.length;
+        if (p.x >= Parser.length){
+            p.x -= Parser.length;
         }
-        if (p.y >= CliParser.length){
-            p.y -= CliParser.length;
+        if (p.y >= Parser.length){
+            p.y -= Parser.length;
         }
         if (p.x < 0){
-            p.x += CliParser.length;
+            p.x += Parser.length;
         }
         if (p.y < 0){
-            p.y += CliParser.length;
+            p.y += Parser.length;
         }
     }
 
