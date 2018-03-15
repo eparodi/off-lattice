@@ -114,15 +114,11 @@ public class OffLattice
             cos += Math.cos(neighbour.angle);
         }
 
-        if (neighbours.size() != 0){
-            sin = sin / neighbours.size();
-            cos = cos / neighbours.size();
-            angle = Math.atan2(cos, sin);
-            double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
-            angle += noise;
-        }else { /* If no neighbours keep the same angle  */
-            return p.angle;
-        }
+        sin = sin / neighbours.size();
+        cos = cos / neighbours.size();
+        angle = Math.atan2(cos, sin);
+        double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
+        angle += noise;
 
         if (angle > Math.PI){
             angle -= Math.PI;
@@ -193,6 +189,8 @@ public class OffLattice
                         }
                     }
                 }
+            }else{
+                particle.addNeighbour(particle);
             }
         }
     }
