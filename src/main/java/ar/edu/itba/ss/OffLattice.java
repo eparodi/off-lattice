@@ -1,5 +1,7 @@
 package ar.edu.itba.ss;
 
+import net.jafama.FastMath;
+
 import java.util.*;
 
 import static java.lang.System.exit;
@@ -83,10 +85,6 @@ public class OffLattice
             copy.add(copyList);
         }
 
-        for (int i = 0; i < cells.size() ; i++){
-            copy.add(new LinkedList<Particle>());
-        }
-
         return copy;
     }
 
@@ -110,13 +108,13 @@ public class OffLattice
         double sin = 0;
         double cos = 0;
         for (Particle neighbour : neighbours){
-            sin += Math.sin(neighbour.angle);
-            cos += Math.cos(neighbour.angle);
+            sin += FastMath.sin(neighbour.angle);
+            cos += FastMath.cos(neighbour.angle);
         }
 
         sin = sin / neighbours.size();
         cos = cos / neighbours.size();
-        angle = Math.atan2(cos, sin);
+        angle = FastMath.atan2(cos, sin);
         double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
         angle += noise;
 

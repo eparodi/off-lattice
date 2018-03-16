@@ -50,6 +50,11 @@ public class Particle implements Cloneable{
         return id == particle.id;
     }
 
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
     public void addNeighbour(Particle adjacentParticle) {
         this.neighbours.add(adjacentParticle);
     }
