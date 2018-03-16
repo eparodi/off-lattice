@@ -1,5 +1,5 @@
 # off-lattice
-Implementation of an off lattice automaton.
+Implementation of an off lattice cellular automaton.
 
 ## Compilation
 ### Simulation
@@ -12,28 +12,27 @@ mvn package
 ### Simulation
 
 ```
-java -jar off-lattice-1.0-SNAPSHOT-jar-with-dependencies.jar
+java -jar off-lattice-1.0-SNAPSHOT-jar-with-dependencies.jar -df generator/1-dynamic-100.ari -n 0.1 -t 250 
 ```
 Parameters:
 
-* -df, --dynamic_file <arg>:   Path to the file with the dynamic values.
-* -h,--help: Shows the help.
-* -l,--length <arg>: Length of the side.
-* -n,--noise <arg>: Noise of the environment.
-* -pc,--periodic_contour: Enables periodic contour conditions.
-* -rc,--radius <arg>: Radius of interaction between particles.
-* -s,--speed <arg>: Speed module of the particles.
+* **-df, --dynamic_file &lt;arg>**: Path to the file with the dynamic values.
+* **-h, --help**: Shows the help.
+* **-n, --noise &lt;arg>**: Noise of the environment.
+* **-rc, --radius &lt;arg>**: Radius of interaction between particles.
+* **-s, --speed &lt;arg>**: Speed module of the particles.
+* **-t, --time &lt;arg>**: Total time of the simulation.
 
-### Animation
-
-The animation can be run by executing the octave file `animation.m` that
-accepts the following parameters `animation(simulation_file, speed)`.
-
-* **simulation_file**: Path to the file with the simulation output.
-* **speed**: Speed module of the particles.
-* **animation_speed**: Speed of the animation.
-
-Example:
+#### Dynamic values
+The program accepts an input file that follows this format:
 ```
-animation('../out.data', 0.3, 10);
+l
+x1  y1  theta1
+x2  y2  theta2
+...
+xn  yn  thetan
 ```
+Where `l` is the length of the side of the cell where the particles are generated.
+
+You can use the python script `generator/generate_files.py` to generate 
+several of these inputs.
