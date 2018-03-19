@@ -54,6 +54,7 @@ public class OffLattice
             System.out.println(i + 1);
             for (Particle p: particles){
                 System.out.println(p.x + "\t" + p.y + "\t" + p.angle);
+                p.neighbours = new HashSet<>();
                 assignCell(cells, p);
             }
         }
@@ -119,9 +120,9 @@ public class OffLattice
         angle += noise;
 
         if (angle > Math.PI){
-            angle -= Math.PI;
+            angle -= 2*Math.PI;
         }else if (angle < -Math.PI){
-            angle += Math.PI;
+            angle += 2*Math.PI;
         }
         return angle;
     }
