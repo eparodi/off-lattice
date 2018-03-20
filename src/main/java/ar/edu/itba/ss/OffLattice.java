@@ -41,18 +41,23 @@ public class OffLattice
                     getNeighbours(p, oldValues, cells);
                 }
             }
+
+            Map<Particle, Double> newAngle = new HashMap<>();
+
             for (List<Particle> cell : cells) {
                 for (Particle p : cell) {
                     double angle = getNewAngle(p);
                     changePosition(p);
-                    p.angle = angle;
+                    newAngle.put(p, angle);
                     particles.add(p);
                 }
             }
+
             cells = createCells();
             System.out.println(Parser.numberOfParticles);
             System.out.println(i + 1);
             for (Particle p: particles){
+                p.angle = newAngle.get(p);
                 System.out.println(p.x + "\t" + p.y + "\t" + p.angle);
                 p.neighbours = new HashSet<>();
                 assignCell(cells, p);
@@ -115,7 +120,7 @@ public class OffLattice
 
         sin = sin / neighbours.size();
         cos = cos / neighbours.size();
-        angle = FastMath.atan2(cos, sin);
+        angle = FastMath.atan2(sin, cos);
         double noise =  CliParser.noise * (Math.random() - 1.0 / 2.0);
         angle += noise;
 
